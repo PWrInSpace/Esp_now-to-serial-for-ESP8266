@@ -4,6 +4,7 @@
 #include <espnow.h>
 
 uint8_t targetAdress[] = {0x94, 0x3C, 0xC6, 0x24, 0xE3, 0x54};
+bool ledState;
 
 void OnDataSent(uint8_t *mac_addr, uint8_t sendStatus) {
 
@@ -17,6 +18,7 @@ void OnDataRecv(uint8_t *mac, uint8_t *incomingData, uint8_t len) {
 
 void setup() {
   
+  pinMode(2, OUTPUT);
   Serial.begin(115200);
 
   WiFi.mode(WIFI_STA);
@@ -33,9 +35,12 @@ void setup() {
 void loop() {
   
   if (Serial.available()) {
+
+    ledState = !ledState;
+    digitalWrite(2, ledState);
+
     delay(2);
     String message = Serial.readString();
     esp_now_send(targetAdress, (uint8_t*) message.c_str(), message.length());
   }
-
 }
