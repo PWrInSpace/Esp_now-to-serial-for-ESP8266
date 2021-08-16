@@ -20,6 +20,7 @@ void setup() {
   
   pinMode(2, OUTPUT);
   Serial.begin(115200);
+  Serial.setTimeout(10);
 
   WiFi.mode(WIFI_STA);
   WiFi.disconnect();
@@ -37,10 +38,18 @@ void loop() {
   if (Serial.available()) {
 
     ledState = !ledState;
+
+    String rxData = "";
+
+      while(Serial.available()) {
+
+          rxData += Serial.readString();
+          delay(2);
+      }
+
+
     digitalWrite(2, ledState);
 
-    delay(2);
-    String message = Serial.readString();
-    esp_now_send(targetAdress, (uint8_t*) message.c_str(), message.length());
+    esp_now_send(targetAdress, (uint8_t*) rxData.c_str(), rxData.length());
   }
 }
