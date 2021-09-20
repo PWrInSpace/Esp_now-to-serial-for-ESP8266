@@ -3,7 +3,7 @@
 #include <ESP8266WiFi.h>
 #include <espnow.h>
 
-uint8_t targetAdress[] = {0x94, 0x3C, 0xC6, 0x24, 0xE3, 0x54};
+uint8_t targetAdress[] = {0xB4, 0xE6, 0x2D, 0x85, 0x49, 0x4D};
 bool ledState;
 
 void OnDataSent(uint8_t *mac_addr, uint8_t sendStatus) {
